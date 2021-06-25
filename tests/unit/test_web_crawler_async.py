@@ -2,7 +2,7 @@ import pytest
 
 from unittest import TestCase
 
-from web_crawler import WebCrawler
+from web_crawler.web_crawler_async import WebCrawlerAsync
 
 
 @pytest.mark.unit_tests
