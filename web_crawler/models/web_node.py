@@ -17,6 +17,9 @@ class WebNode:
                 output += '\t' * depth + WebNode._print_webs_dfs(child, child.url + '\n', depth, visited)
         return output
 
+    def __eq__(self, other):
+        return repr(self) == repr(other)
+
     def __repr__(self) -> str:
         """ representation opetator """
         return WebNode._print_webs_dfs(self, self.url + '\n', 0, set())

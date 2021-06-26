@@ -4,7 +4,7 @@ import click
 
 from pathlib import Path
 
-from web_crawler.web_crawler import WebCrawler
+from web_crawler import WebCrawler
 from web_crawler.utils.web_crawler_logger import WebCrawlerLogger
 
 
