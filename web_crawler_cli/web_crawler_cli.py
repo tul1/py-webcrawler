@@ -56,9 +56,12 @@ class WebCrawlerCLI(click.MultiCommand):
 
 
 @click.command(cls=WebCrawlerCLI, context_settings=CONTEXT_SETTINGS)
-@click.option('-v', '--verbose', if_flag=True, help='Enables verbose mode.')
+@click.option('-u', '--url', default=lambda: os.environ.get('WEB_CRAWLER_URL',''), help='Url to crawl.')
+@click.option('-v', '--verbose', default=False, help='Enables verbose mode.')
 @pass_context
-def cli(ctx, verbose):
+def cli(ctx, verbose, url):
     """Web Crawler command line interface."""
     ctx.verbose = verbose
-    ctx.service = WebCrawler()
+    print(url)
+    ctx.service = WebCrawler(url)
+    print('url')
