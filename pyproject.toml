@@ -19,7 +19,9 @@ bs4 = "^0.0.1"
 pytest = "^6.2.4"
 pycodestyle = "^2.7.0"
 mypy = "^0.910"
-types-requests = "^2.25.0"
+pytest-cov = "^2.12.1"
+coverage = "^5.5"
+pytest-mock = "^3.6.1"
 
 [tool.poetry.scripts]
 web_crawler = "web_crawler_cli.web_crawler_cli:cli"

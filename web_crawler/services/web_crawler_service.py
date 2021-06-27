@@ -18,7 +18,7 @@ class WebCrawlerService(metaclass=ABCMeta):
             html = requests.get(url).text
             soup = BeautifulSoup(html, features='html5lib')
         except Exception as e:
-            WebCrawlerLogger().get_logger().warn(f'{url} coud not be parse due to: {e}')
+            WebCrawlerLogger().get_logger().warning(f'{url} coud not be parse due to: {e}')
             return None
         else:
             for a_tag in soup.find_all('a'):

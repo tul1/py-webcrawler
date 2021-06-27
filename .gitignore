@@ -1,5 +1,8 @@
 .vscode
 bandit-report.json
+report.xml
+coverge.xml
+html_report/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
