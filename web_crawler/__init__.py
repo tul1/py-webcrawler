@@ -6,4 +6,4 @@ __version__ = '0.1.0'
 from web_crawler.web_crawler import WebCrawler
 from web_crawler.web_crawler_async import WebCrawlerAsync
 
-__all__ = (WebCrawler, WebCrawlerAsync)
+__all__ = ['WebCrawler', 'WebCrawlerAsync']

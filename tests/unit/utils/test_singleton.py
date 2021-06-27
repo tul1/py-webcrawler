@@ -16,6 +16,6 @@ class TestSingleton(TestCase):
         # When
         first = FakeClass()
         second = FakeClass()
-        
+
         # Then
         assert first is second

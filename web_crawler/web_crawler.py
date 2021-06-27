@@ -16,6 +16,7 @@ class WebCrawler(WebCrawlerService):
             current_web: WebNode = queue.pop(0)
             if current_web.url not in visited_webs:
                 visited_webs.add(current_web.url)
-                current_web.children = [WebNode(url=child_url) for child_url in WebCrawler._get_embedded_web(current_web.url)] 
+                current_web.children = [WebNode(url=child_url)
+                                        for child_url in WebCrawler._get_embedded_web(current_web.url)]
                 queue.extend(current_web.children)
         return repr(self.root_web)

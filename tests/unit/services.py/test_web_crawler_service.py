@@ -31,7 +31,6 @@ class TestWebCrawlerService(TestCase):
         mock_beautifulsoup.assert_called_once_with(mock_get_html.return_value.text, features='html5lib')
         mock_beautifulsoup.return_value.find_all.assert_called_with('a')
 
-
     def test_run_unimplemented(self):
         # Given
         class FakeWebCrawler(WebCrawlerService):

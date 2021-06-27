@@ -37,12 +37,12 @@ class TestWebCrawlerService(TestCase):
 
         # Then
         expected_webnode_repr = (f'web_1\n'
-                                    f'\tweb_2\n'
-                                    f'\tweb_3\n'
-                                        f'\t\tweb_4\n'
-                                            f'\t\t\tweb_5\n'
-                                        f'\t\tweb_6\n'
-                                    f'\tweb_7\n')
+                                 f'\tweb_2\n'
+                                 f'\tweb_3\n'
+                                 f'\t\tweb_4\n'
+                                 f'\t\t\tweb_5\n'
+                                 f'\t\tweb_6\n'
+                                 f'\tweb_7\n')
 
         self.assertEqual(expected_webnode_repr, webnode_repr)
 
@@ -65,12 +65,12 @@ class TestWebCrawlerService(TestCase):
 
         # Then
         expected_webnode_repr = (f'web_1\n'
-                                    f'\tweb_2\n'
-                                    f'\tweb_3\n'
-                                        f'\t\tweb_4\n'
-                                            f'\t\t\tweb_5\n'
-                                        f'\t\tweb_6\n'
-                                    f'\tweb_7\n'
-                                        f'\t\tweb_1\n')
+                                 f'\tweb_2\n'
+                                 f'\tweb_3\n'
+                                 f'\t\tweb_4\n'
+                                 f'\t\t\tweb_5\n'
+                                 f'\t\tweb_6\n'
+                                 f'\tweb_7\n'
+                                 f'\t\tweb_1\n')
 
         self.assertEqual(expected_webnode_repr, webnode_repr)

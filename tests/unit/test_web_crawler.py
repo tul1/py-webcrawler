@@ -6,6 +6,7 @@ from unittest.mock import patch, MagicMock
 from web_crawler.web_crawler import WebCrawler
 from web_crawler.models.web_node import WebNode
 
+
 @pytest.mark.unit_tests
 @patch('web_crawler.WebCrawler._get_embedded_web')
 class TestWebCrawler(TestCase):
@@ -17,7 +18,7 @@ class TestWebCrawler(TestCase):
         # Given
         mock_get_webs.return_value = []
         web_crawler = WebCrawler(url_root_web='mock.com')
-        
+
         # When
         web_crawler.run()
 
@@ -33,7 +34,7 @@ class TestWebCrawler(TestCase):
         # Given
         mock_get_webs.side_effect = [['mock.com/1', 'mock.com/2', 'mock.com/3'], [], [], []]
         web_crawler = WebCrawler('mock.com')
-        
+
         # When
         web_crawler.run()
 
@@ -52,7 +53,7 @@ class TestWebCrawler(TestCase):
         # Given
         mock_get_webs.side_effect = [['mock.com/1', 'mock.com/2', 'mock.com/3'], ['mock.com'], [], [], []]
         web_crawler = WebCrawler('mock.com')
-        
+
         # When
         web_crawler.run()
 
