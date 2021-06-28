@@ -2,7 +2,7 @@ import requests
 
 from bs4 import BeautifulSoup
 from abc import ABCMeta, abstractmethod
-from typing import Generator
+from typing import Generator, Any
 
 from web_crawler.models.web_node import WebNode
 from web_crawler.utils.web_crawler_logger import WebCrawlerLogger
@@ -21,8 +21,13 @@ class WebCrawlerService(metaclass=ABCMeta):
             WebCrawlerLogger().get_logger().warning(f'{url} coud not be parse due to: {e}')
             return None
         else:
-            for a_tag in soup.find_all('a'):
-                yield a_tag.get('href')
+            yield from filter(lambda href: WebCrawlerService._filter_url(href), soup.find_all('a'))
+
+    @staticmethod
+    def _filter_url(url: Any) -> bool:
+        """ filter url """
+        x.get('href')
+        return True
 
     @abstractmethod
     def run(self) -> str:
