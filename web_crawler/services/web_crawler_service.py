@@ -2,7 +2,7 @@ import requests
 
 from bs4 import BeautifulSoup
 from abc import ABCMeta, abstractmethod
-from typing import Generator, Any
+from typing import Generator, Any, Set
 
 from web_crawler.models.web_node import WebNode
 from web_crawler.utils.web_crawler_logger import WebCrawlerLogger
@@ -10,9 +10,9 @@ from web_crawler.utils.web_crawler_logger import WebCrawlerLogger
 
 class WebCrawlerService(metaclass=ABCMeta):
     """ WebCrawlerService """
-    @staticmethod
-    def _get_embedded_web(url: str) -> Generator[str, None, None]:
+    def get_embedded_webs(self, url: str) -> Generator[str, None, None]:
         """ get embedded web """
+        self._visited_node: Set = set()
         try:
             WebCrawlerLogger().get_logger().info(url)
             html = requests.get(url).text
@@ -21,13 +21,20 @@ class WebCrawlerService(metaclass=ABCMeta):
             WebCrawlerLogger().get_logger().warning(f'{url} coud not be parse due to: {e}')
             return None
         else:
-            yield from filter(lambda href: WebCrawlerService._filter_url(href), soup.find_all('a'))
+            formatted_urls = map(lambda a: self._format_url(a), soup.find_all('a')) 
+            yield from filter(None, formatted_urls)
 
-    @staticmethod
-    def _filter_url(url: Any) -> bool:
-        """ filter url """
-        x.get('href')
-        return True
+    def _format_url(self, a: Any) -> str:
+        url: str = a.get('href')
+        if url and url not in self._visited_node:
+            self._visited_node.add(url)
+            if url.startswith('http'):
+                return url
+            elif url.startswith('/'):
+                url = self.root_web.url + url[1:]
+                self._visited_node.add(url)
+                return url
+        return None
 
     @abstractmethod
     def run(self) -> str:

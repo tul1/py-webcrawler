@@ -62,6 +62,4 @@ class WebCrawlerCLI(click.MultiCommand):
 def cli(ctx, verbose, url):
     """Web Crawler command line interface."""
     ctx.verbose = verbose
-    print(url)
     ctx.service = WebCrawler(url)
-    print('url')
