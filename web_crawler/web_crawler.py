@@ -1,18 +1,22 @@
-import requests
+from typing import List, Set, Dict
 
-from bs4 import BeautifulSoup
+from web_crawler.models.web_node import WebNode
+from web_crawler.services.web_crawler_service import WebCrawlerService
 
 
-class WebCrawler:
+class WebCrawler(WebCrawlerService):
+    def __init__(self, url_root_web: str) -> None:
+        self.root_web: WebNode = WebNode(url=url_root_web)
+        self.web_nodes_table: Dict[str, WebNode] = {url_root_web: self.root_web}
 
-    def __init__(self, path_init_web):
-        self.path_init_web = path_init_web
-    
-    def crawl_the_web(self):
+    def run(self) -> str:
         """ Crawl the web """
-        site_html_res = requests.get(self.path_init_web)
-        site_html = BeautifulSoup(site_html_res.text, 'html.parser')
-        result = []
-        for link in site_html.find_all('a'):
-            result.append(link.get('href'))
-        return result
+        visited_web_nodes: Set[str] = set()
+        queue: List[WebNode] = [self.root_web]
+        while queue:
+            current_web: WebNode = queue.pop(0)
+            if current_web.url not in visited_web_nodes and current_web.url.startswith(self.root_web.url):
+                visited_web_nodes.add(current_web.url)
+                current_web.children = [WebNode(url=child_url) for child_url in self.get_embedded_webs(current_web.url)]
+                queue.extend(current_web.children)
+        return repr(self.root_web)

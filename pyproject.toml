@@ -14,9 +14,18 @@ packages = [
 python = "^3.9"
 requests = "^2.25.1"
 bs4 = "^0.0.1"
+safety = "^1.10.3"
+html5lib = "^1.1"
+click = "^8.0.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.4"
+pycodestyle = "^2.7.0"
+mypy = "^0.910"
+pytest-cov = "^2.12.1"
+coverage = "^5.5"
+pytest-mock = "^3.6.1"
+types-requests = "^2.25.0"
 
 [tool.poetry.scripts]
 web_crawler = "web_crawler_cli.web_crawler_cli:cli"

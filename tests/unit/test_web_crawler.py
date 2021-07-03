@@ -3,38 +3,64 @@ import pytest
 from unittest import TestCase
 from unittest.mock import patch, MagicMock
 
-
 from web_crawler.web_crawler import WebCrawler
+from web_crawler.models.web_node import WebNode
 
 
 @pytest.mark.unit_tests
-@patch('web_crawler.web_crawler.requests.get')
+@patch('web_crawler.WebCrawler._get_embedded_web')
 class TestWebCrawler(TestCase):
 
-    def test_web_crawler_single_neighbor(self, mock_get_sites):
+    def test_run_single_node(self, mock_get_webs):
+        """
+        Single node test.
+        """
         # Given
-        mock_get_sites.return_value.text = '<html><body><a href="http://patriciotula.com/neighbor"></a></body></html>'
-        web_crawler = WebCrawler('http://patriciotula.com')
+        mock_get_webs.return_value = []
+        web_crawler = WebCrawler(url_root_web='mock.com')
 
         # When
-        webs = web_crawler.crawl_the_web()
+        web_crawler.run()
 
         # Then
-        self.assertEqual(webs, ['http://patriciotula.com/neighbor'])
+        expected_web_node = WebNode(url='mock.com')
 
+        self.assertEqual(expected_web_node, web_crawler.root_web)
 
-    def test_web_crawler_multiple_neighbors(self, mock_get_sites):
+    def test_run_simple_tree(self, mock_get_webs):
+        """
+        Simple Tree test.
+        """
         # Given
-        original_site = '<html><body><a href="http://patriciotula.com/neighbor1"></a></body></html>'
-        first_neighbor_site = '<html><body><a href="http://patriciotula.com/neighbor2"></a></body></html>'
-        second_neighbor_site = '<html><body><a href="http://patriciotula.com"></a></body></html>'
-        mock_get_sites.side_effect = [MagicMock(text=original_site),
-                                      MagicMock(text=first_neighbor_site),
-                                      MagicMock(text=second_neighbor_site)]
-        web_crawler = WebCrawler('http://patriciotula.com')
+        mock_get_webs.side_effect = [['mock.com/1', 'mock.com/2', 'mock.com/3'], [], [], []]
+        web_crawler = WebCrawler('mock.com')
 
         # When
-        webs = web_crawler.crawl_the_web()
+        web_crawler.run()
 
         # Then
-        self.assertEqual(webs, ['http://patriciotula.com/neighbor1', 'http://patriciotula.com/neighbor2'])
+        expected_web_tree = WebNode(url='mock.com',
+                                    children=[WebNode(url='mock.com/1'),
+                                              WebNode(url='mock.com/2'),
+                                              WebNode(url='mock.com/3')])
+
+        self.assertEqual(expected_web_tree, web_crawler.root_web)
+
+    def test_run_circular_graph(self, mock_get_webs):
+        """
+        Graph with circular dependency.
+        """
+        # Given
+        mock_get_webs.side_effect = [['mock.com/1', 'mock.com/2', 'mock.com/3'], ['mock.com'], [], [], []]
+        web_crawler = WebCrawler('mock.com')
+
+        # When
+        web_crawler.run()
+
+        # Then
+        node_1 = WebNode(url='mock.com/1')
+        expected_web_graph = WebNode(url='mock.com',
+                                     children=[node_1, WebNode('mock.com/2'), WebNode('mock.com/3')])
+        node_1.children = [expected_web_graph]
+
+        self.assertEqual(expected_web_graph, web_crawler.root_web)

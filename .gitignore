@@ -1,5 +1,8 @@
 .vscode
 bandit-report.json
+report.xml
+coverge.xml
+html_report/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -53,6 +56,7 @@ coverage.xml
 *.py,cover
 .hypothesis/
 .pytest_cache/
+.mypy_cache/
 
 # Translations
 *.mo

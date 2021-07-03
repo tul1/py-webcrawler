@@ -16,11 +16,11 @@ class TestWebCrawlerLogger(TestCase):
             Singleton._instances.pop(WebCrawlerLogger)
         except KeyError:
             pass
-    
+
     def test_init(self, logging_mock):
         # When
         first = WebCrawlerLogger()
-        second =  WebCrawlerLogger()
+        second = WebCrawlerLogger()
 
         # Then
         assert first is second
