@@ -1,6 +1,7 @@
 import os
 import sys
 import click
+import logging
 
 from pathlib import Path
 
@@ -17,7 +18,7 @@ class Context(object):
         self.verbose = False
         self.config_dir = str(Path.home())
         self.service = None
-        self._logger = WebCrawlerLogger().get_logger()
+        self.logger = WebCrawlerLogger().get_logger()
 
     def log(self, msg, *args):
         """Logs a message to stderr."""
@@ -57,9 +58,13 @@ class WebCrawlerCLI(click.MultiCommand):
 
 @click.command(cls=WebCrawlerCLI, context_settings=CONTEXT_SETTINGS)
 @click.option('-u', '--url', default=lambda: os.environ.get('WEB_CRAWLER_URL',''), help='Url to crawl.')
-@click.option('-v', '--verbose', default=False, help='Enables verbose mode.')
+@click.option('-v', '--verbose', is_flag=False, default=False, help='Enables verbose mode.')
 @pass_context
 def cli(ctx, verbose, url):
     """Web Crawler command line interface."""
-    ctx.verbose = verbose
+    if verbose is False:
+        ctx.logger.setLevel(logging.NOTSET)
+    else:
+        ctx.logger.setLevel(logging.INFO)
+    
     ctx.service = WebCrawler(url)
