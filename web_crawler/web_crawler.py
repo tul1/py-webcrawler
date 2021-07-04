@@ -6,8 +6,7 @@ from web_crawler.services.web_crawler_service import WebCrawlerService
 
 class WebCrawler(WebCrawlerService):
     def __init__(self, url_root_web: str) -> None:
-        self.root_web: WebNode = WebNode(url=url_root_web)
-        self.web_nodes_table: Dict[str, WebNode] = {url_root_web: self.root_web}
+        super().__init__(url_root_web)
 
     def run(self) -> str:
         """ Crawl the web """

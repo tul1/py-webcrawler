@@ -6,6 +6,7 @@ from unittest.mock import patch
 from web_crawler.utils.exceptions import WebCrawlerException
 
 
+@pytest.mark.unit_tests
 class TestWebCrawlerException(TestCase):
 
     @patch('web_crawler.utils.exceptions.WebCrawlerLogger')
